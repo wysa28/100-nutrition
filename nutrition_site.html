@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nutrition</title>
+<style>
+:root{--bg:#f5f5f7;--card:#fff;--tx:#1d1d1f;--mu:#6e6e73;--bd:rgba(0,0,0,.08);--ac:#0071e3;--p:#ff3b30;--c:#ff9500;--f:#34c759;--in:#f2f2f7;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#000;--card:#1c1c1e;--tx:#f5f5f7;--mu:#98989d;--bd:rgba(255,255,255,.12);--ac:#0a84ff;--p:#ff453a;--c:#ff9f0a;--f:#30d158;--in:#2c2c2e}}
+:root[data-theme="dark"]{--bg:#000;--card:#1c1c1e;--tx:#f5f5f7;--mu:#98989d;--bd:rgba(255,255,255,.12);--ac:#0a84ff;--p:#ff453a;--c:#ff9f0a;--f:#30d158;--in:#2c2c2e}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:radial-gradient(circle at top, rgba(39,140,115,.18), transparent 30%), linear-gradient(160deg, #edf7f5 0%, #f6f6f7 35%, #eef3ff 100%);color:var(--tx);font:17px/1.4 -apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Helvetica Neue",Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased}
+main{max-width:1080px;margin:0 auto;padding:28px 20px 56px}
+.shell{display:grid;gap:24px}
+.hero{display:flex;align-items:center;justify-content:space-between;gap:20px;background:rgba(255,255,255,.7);backdrop-filter:blur(16px);border:1px solid rgba(16,24,40,.06);border-radius:32px;padding:26px 28px;box-shadow:0 18px 40px rgba(17,24,39,.08)}
+.eyebrow{display:inline-flex;padding:8px 12px;border-radius:999px;background:rgba(162,203,181,.18);color:#0d5b4f;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+h1{font-size:42px;font-weight:800;letter-spacing:-.05em;margin:12px 0 4px}
+.date{color:var(--mu);margin:0;font-size:15px}
+.hero-meta{display:flex;gap:12px;flex-wrap:wrap;justify-content:flex-end}
+.mini-stat{min-width:150px;padding:14px 16px;border-radius:18px;background:linear-gradient(180deg, rgba(10,30,22,.03), rgba(10,30,22,.01));border:1px solid rgba(17,24,39,.04)}
+.mini-stat span{display:block;color:var(--mu);font-size:12px;text-transform:uppercase;letter-spacing:.06em;font-weight:700}
+.mini-stat strong{display:block;margin-top:6px;font-size:22px;letter-spacing:-.04em}
+.layout{display:grid;grid-template-columns:1.15fr .85fr;gap:24px;align-items:start}
+.stack{display:grid;gap:20px}
+.card{background:rgba(255,255,255,.86);border:1px solid rgba(17,24,39,.06);border-radius:28px;padding:22px;box-shadow:0 18px 44px rgba(15,23,42,.08);animation:up .6s cubic-bezier(.2,.8,.2,1) both}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:16px}
+h2{font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.08em;color:#5d6b79;margin:0}
+.pill{padding:7px 12px;border-radius:999px;background:rgba(10,89,74,.06);color:#0d5b4f;font-size:12px;font-weight:700}
+@keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.g{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+label{display:block;font-size:12px;color:var(--mu);margin:0 0 6px 2px;font-weight:600}
+input,select{font:inherit;font-size:16px;width:100%;padding:12px 14px;border-radius:14px;border:1px solid rgba(15,23,42,.08);background:linear-gradient(180deg,#f9fafb,#f2f4f6);color:var(--tx);transition:border-color .2s,box-shadow .2s;-webkit-appearance:none;appearance:none}
+input:focus,select:focus{outline:0;border-color:rgba(22,132,96,.7);box-shadow:0 0 0 4px rgba(22,132,96,.12)}
+.btn{display:block;width:100%;font:inherit;font-weight:700;padding:13px 16px;border-radius:16px;border:0;background:linear-gradient(135deg,#0f9d7a,#0bb4a7);color:#fff;cursor:pointer;text-align:center;transition:transform .15s,opacity .15s;box-shadow:0 12px 22px rgba(14,143,118,.2)}
+.btn:hover{opacity:.96}.btn:active{transform:scale(.98)}
+.btn.t{background:rgba(12,122,100,.08);color:#0b6a57;border:1px solid rgba(12,122,100,.12)}
+.btn.g2{background:rgba(17,24,39,.04);color:#374151;border:1px solid rgba(17,24,39,.06);box-shadow:none}
+.mu{color:var(--mu);font-size:14px}
+.goal{display:flex;align-items:center;gap:18px;margin-top:16px;flex-wrap:wrap}
+.ring{position:relative;width:132px;height:132px;flex:none}
+.ring svg{transform:rotate(-90deg);width:100%;height:100%}
+.ring circle{fill:none;stroke-width:13;stroke-linecap:round}
+.ring .t{stroke:rgba(16,24,40,.08)}.ring .v{stroke:var(--ac);stroke-dasharray:339.3;stroke-dashoffset:339.3;transition:stroke-dashoffset 1.2s cubic-bezier(.2,.8,.2,1),stroke .4s}
+.ring .ct{position:absolute;inset:0;display:grid;place-content:center;text-align:center}
+.ring b{font-size:30px;font-weight:800;letter-spacing:-.04em;line-height:1.1}
+.chips{display:flex;flex-wrap:wrap;gap:8px;flex:1;min-width:150px}
+.chip{padding:7px 12px;border-radius:999px;font-size:12px;font-weight:700;background:linear-gradient(180deg,#f5faf8,#edf6f3);color:#2f3f3b;border:1px solid rgba(14,124,103,.08)}
+.mb{margin:0 0 14px}.mb .row{display:flex;justify-content:space-between;font-size:15px;font-weight:700}
+.mb .row span:last-child{font-weight:600;color:var(--mu)}
+.bar{height:10px;background:rgba(17,24,39,.06);border-radius:999px;overflow:hidden;margin-top:8px}
+.bar i{display:block;height:100%;width:0;border-radius:999px;transition:width 1s cubic-bezier(.2,.8,.2,1)}
+.rest{display:flex;justify-content:space-between;padding:14px 16px;border-radius:16px;font-weight:700;background:linear-gradient(180deg,#f5faf8,#eefbf7);border:1px solid rgba(14,124,103,.08);color:#0d5b4f}
+.it{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;padding:12px 4px;border-top:1px solid rgba(17,24,39,.08);animation:pop .4s both}
+@keyframes pop{from{opacity:0;transform:translateX(-16px)}to{opacity:1;transform:none}}
+.it small{display:block;color:var(--mu);font-size:13px}.it .k{font-weight:700}
+.x{width:32px;height:32px;border-radius:50%;border:0;background:rgba(17,24,39,.05);color:#475467;cursor:pointer;font-size:14px;transition:transform .2s,color .2s}
+.x:hover{color:var(--p);transform:rotate(90deg)}
+.warn{color:var(--p);font-size:14px;margin-top:10px;background:rgba(255,59,48,.05);padding:10px 12px;border-radius:12px;border:1px solid rgba(255,59,48,.1)}
+details summary{cursor:pointer;margin-top:14px;color:#0b6a57;font-size:15px;font-weight:600}
+.ph{margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid rgba(17,24,39,.08)}
+.pv{width:100%;max-height:220px;object-fit:cover;border-radius:16px;margin-top:12px;animation:up .4s both;border:1px solid rgba(17,24,39,.06)}
+.spin{display:inline-block;width:16px;height:16px;border:2px solid rgba(17,24,39,.08);border-top-color:#0b6a57;border-radius:50%;animation:rot .8s linear infinite;vertical-align:-3px;margin-right:8px}
+@keyframes rot{to{transform:rotate(360deg)}}
+.ai{display:grid;grid-template-columns:1fr 78px;gap:10px;align-items:center;padding:10px 0;border-top:1px solid rgba(17,24,39,.08)}
+.ai input{padding:8px;text-align:center}
+.ai small{display:block;color:var(--mu);font-size:13px}
+.ai:first-child{border-top:0}
+[hidden]{display:none!important}
+@media (max-width: 820px){.hero{flex-direction:column;align-items:flex-start}.hero-meta{justify-content:flex-start}.layout{grid-template-columns:1fr}.main{padding:20px 14px 48px}} 
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<main class="shell">
+  <header class="hero">
+    <div>
+      <span class="eyebrow">Suivi nutrition</span>
+      <h1>Nutrition</h1>
+      <p class="date" id="dt"></p>
+    </div>
+    <div class="hero-meta">
+      <div class="mini-stat">
+        <span>Objectif</span>
+        <strong id="mini-goal">0 kcal</strong>
+      </div>
+      <div class="mini-stat">
+        <span>Protéines</span>
+        <strong id="mini-protein">0 g</strong>
+      </div>
+    </div>
+  </header>
+
+  <div style="margin: 0 0 18px;">
+    <a href="recipes.html" class="btn" style="max-width: 280px; display:inline-block; text-align:center;">Découvrir 100+ plats</a>
+  </div>
+
+  <section class="layout">
+    <div class="stack">
+      <div class="card">
+        <div class="section-head">
+          <h2>Mes données</h2>
+          <span class="pill">Profil</span>
+        </div>
+        <div class="g">
+          <div><label>Sexe</label><select id="sex"><option value="m">Homme</option><option value="f">Femme</option></select></div>
+          <div><label>Âge</label><input id="age" type="number" value="21"></div>
+          <div><label>Poids (kg)</label><input id="w" type="number" value="104"></div>
+          <div><label>Taille (cm)</label><input id="h" type="number" value="183"></div>
+          <div><label>Activité</label><select id="act"><option value="1.2">Sédentaire</option><option value="1.375">1-3 séances/sem</option><option value="1.55" selected>3-5 séances/sem</option><option value="1.725">Intense quotidien</option></select></div>
+          <div><label>Déficit (kcal)</label><input id="def" type="number" value="700"></div>
+        </div>
+        <button class="btn" style="margin-top:16px" onclick="saveProfile()">Calculer mon objectif</button>
+        <div id="goal"></div>
+      </div>
+
+      <div class="card">
+        <div class="section-head">
+          <h2>Ajouter un repas</h2>
+          <span class="pill">Journal</span>
+        </div>
+        <div id="ph" class="ph" hidden>
+          <label class="btn" for="pf">📷 Analyser une photo de mon plat</label>
+          <input id="pf" type="file" accept="image/*" hidden>
+          <div id="pst" class="mu" style="margin-top:10px" hidden></div>
+          <img id="pv" class="pv" alt="" hidden>
+          <div id="ail"></div>
+          <button id="aia" class="btn" style="margin-top:12px" hidden onclick="addAI()">Ajouter au journal</button>
+        </div>
+        <div class="g">
+          <div><label>Aliment</label><input id="food" list="fl" placeholder="ex : poulet cuit"><datalist id="fl"></datalist></div>
+          <div><label>Quantité (g)</label><input id="qty" type="number" value="100"></div>
+        </div>
+        <button class="btn t" style="margin-top:14px" onclick="addEntry()">Ajouter</button>
+        <details><summary>Aliment absent ? Ajouter le mien (pour 100 g)</summary>
+          <div class="g" style="margin-top:12px">
+            <div><label>Nom</label><input id="cn"></div><div><label>Calories</label><input id="ck" type="number"></div>
+            <div><label>Protéines (g)</label><input id="cp" type="number"></div><div><label>Glucides (g)</label><input id="cc" type="number"></div>
+            <div><label>Lipides (g)</label><input id="cf" type="number"></div><div style="align-self:end"><button class="btn t" onclick="addCustom()">Enregistrer</button></div>
+          </div>
+        </details>
+        <div id="msg" class="warn"></div>
+      </div>
+    </div>
+
+    <aside class="stack">
+      <div class="card">
+        <div class="section-head">
+          <h2>Bilan du jour</h2>
+          <span class="pill">Aujourd'hui</span>
+        </div>
+        <div id="sum"></div>
+        <div id="tb"></div>
+        <button class="btn g2" style="margin-top:12px" onclick="resetDay()">Remettre la journée à zéro</button>
+      </div>
+      <p class="mu" style="margin:0 4px">Valeurs estimées, y compris celles issues des photos. Ce n'est pas un avis médical.</p>
+    </aside>
+  </section>
+</main>
+<script>
+const DB=[["Poulet cuit",165,31,0,3.6],["Dinde cuite",150,30,0,3],["Bœuf haché 5% cuit",170,27,0,7],["Saumon cuit",206,22,0,13],["Thon au naturel",110,25,0,1],["Crevettes cuites",99,24,0,.3],["Œuf",143,12.6,.7,9.5],["Jambon blanc",110,20,1,3],["Tofu ferme",144,15,3,9],["Skyr",63,11,4,.2],["Fromage blanc 0%",47,8,4,.2],["Lait demi-écrémé",46,3.4,4.8,1.6],["Parmesan",431,38,4,29],["Fromage râpé",380,28,0,29],["Riz cuit",130,2.7,28,.3],["Pâtes cuites",158,5.8,31,.9],["Semoule cuite",112,3.8,23,.2],["Quinoa cuit",120,4.4,21,1.9],["Nouilles de riz cuites",110,1,25,.2],["Pommes de terre cuites",86,1.7,20,.1],["Patate douce cuite",90,2,21,.1],["Flocons d'avoine",370,13,60,7],["Pain complet",250,9,43,3.5],["Lentilles cuites",116,9,20,.4],["Haricots rouges cuits",127,8.7,23,.5],["Légumes verts",35,2.5,5,.3],["Brocoli",35,2.4,7,.4],["Sauce tomate",35,1.5,6,.3],["Banane",89,1.1,23,.3],["Pomme",52,.3,14,.2],["Amandes",579,21,22,50],["Beurre de cacahuète",588,25,20,50],["Huile d'olive",884,0,0,100],["Beurre",717,.9,.1,81],["Chocolat noir",546,6,46,35],["Pizza",266,11,33,10]];
+let custom=[],log=[],prof=null,fresh=-1,SAMPLE=null,ai=[],ctl=null;
+const $=id=>document.getElementById(id),today=()=>new Date().toISOString().slice(0,10);
+function ld(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}
+function sv(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+function foods(){return DB.concat(custom)}
+function esc(s){return String(s).replace(/[&<>\"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+function init(){custom=ld('nt_custom',[]);prof=ld('nt_prof',null);const L=ld('nt_log',null);log=(L&&L.d===today())?L.items:[];
+ $('dt').textContent=new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long'});
+ if(prof){for(const k in prof)if($(k))$(k).value=prof[k]}
+ $('fl').innerHTML=foods().map(f=>`<option value="${esc(f[0])}">`).join('');render();initAI()}
+function target(){if(!prof)return null;const w=+prof.w,h=+prof.h,a=+prof.age;
+ const bmr=10*w+6.25*h-5*a+(prof.sex==='m'?5:-161),tdee=bmr*prof.act,kcal=Math.max(tdee-prof.def,0);
+ const p=1.7*w,f=.27*kcal/9,c=Math.max((kcal-p*4-f*9)/4,0);return{bmr,tdee,kcal,p,f,c}}
+function saveProfile(){prof={sex:$('sex').value,age:$('age').value,w:$('w').value,h:$('h').value,act:$('act').value,def:$('def').value};sv('nt_prof',prof);render()}
+function push(e){log.push(e);fresh=log.length-1;sv('nt_log',{d:today(),items:log})}
+function addEntry(){const n=$('food').value.trim().toLowerCase(),q=+$('qty').value,m=$('msg');m.textContent='';
+ const f=foods().find(x=>x[0].toLowerCase()===n)||(n&&foods().find(x=>x[0].toLowerCase().includes(n)));
+ if(!f){m.textContent="Aliment introuvable : choisis-en un dans la liste ou ajoute le tien.";return}
+ if(!(q>0)){m.textContent="Quantité invalide.";return}
+ const r=q/100;push({n:f[0],q,k:f[1]*r,p:f[2]*r,c:f[3]*r,f:f[4]*r});$('food').value='';render()}
+function addCustom(){const v=[$('cn').value.trim(),+$('ck').value,+$('cp').value||0,+$('cc').value||0,+$('cf').value||0];
+ if(!v[0]||$('ck').value===''){$('msg').textContent="Renseigne au moins le nom et les calories.";return}
+ custom.push(v);sv('nt_custom',custom);['cn','ck','cp','cc','cf'].forEach(i=>$(i).value='');init()}
+function del(i){log.splice(i,1);fresh=-1;sv('nt_log',{d:today(),items:log});render()}
+function resetDay(){log=[];fresh=-1;sv('nt_log',{d:today(),items:[]});render()}
+
+/* ---- Analyse photo (Claude) ---- */
+async function initAI(){
+ try{if(window.claude){SAMPLE=await claude.use("sample");
+  if(SAMPLE){const l=await SAMPLE.limits().catch(()=>null);if(l&&l.images){$('ph').hidden=false;$('pf').accept=l.images.mediaTypes.join(',')}}}}catch(e){}
+const ERR={not_granted:"Autorise Claude à analyser la photo pour utiliser cette option.",rate_limited:"Trop de demandes ou limite d'usage atteinte. Réessaie plus tard.",image_rejected:"Image refusée : essaie une autre photo.",refused:"Claude n'a pas pu analyser cette image.",invalid_json:"Réponse illisible, réessaie avec une autre photo.",empty_completion:"Aucun résultat, réessaie."};
+$('pf').addEventListener('change',async ev=>{
+ const file=ev.target.files[0];ev.target.value='';if(!file||!SAMPLE)return;
+ const st=$('pst');ai=[];showAI();$('aia').hidden=true;
+ const rd=new FileReader();rd.onload=()=>{$('pv').src=rd.result;$('pv').hidden=false};rd.readAsDataURL(file);
+ st.hidden=false;st.innerHTML='<span class="spin"></span>Claude analyse ton plat…';
+ if(ctl)ctl.abort();ctl=new AbortController();
+ try{
+  const r=await SAMPLE.json("Tu es nutritionniste. Analyse cette photo de repas : identifie chaque aliment visible, estime sa quantité en grammes (telle que dans l'assiette) et ses valeurs nutritionnelles pour cette quantité. Réponds uniquement par un tableau JSON, exemple : [{\"name\":\"Riz cuit\",\"grams\":200,\"kcal\":260,\"p\":5,\"c\":56,\"f\":1}]. Noms en français, p = protéines, c = glucides, f = lipides (en grammes). Si l'image ne montre pas de nourriture, réponds [].",{images:file,cache:false,signal:ctl.signal});
+  ai=(Array.isArray(r)?r:[]).map(x=>({n:String(x.name||'Aliment'),g:+x.grams||0,k:+x.kcal||0,p:+x.p||0,c:+x.c||0,f:+x.f||0,g0:+x.grams||0})).filter(x=>x.g>0);
+  if(!ai.length){st.textContent="Je n'ai reconnu aucun aliment sur cette photo.";return}
+  st.textContent="Voici ce que j'ai repéré. Corrige les grammes si besoin :";showAI();$('aia').hidden=false;
+ }catch(e){if(e&&e.code==='cancelled')return;st.textContent=ERR[e&&e.code]||"L'analyse a échoué. Réessaie.";}
+});
+function showAI(){$('ail').innerHTML=ai.map((x,i)=>{const s=x.g/x.g0;return `<div class="ai"><div>${esc(x.n)}<small id="as${i}">${Math.round(x.k*s)} kcal · P ${Math.round(x.p*s)} · G ${Math.round(x.c*s)} · L ${Math.round(x.f*s)}</small></div><input type="number" value="${Math.round(x.g)}" min="0" oninput="aiq(${i},this.value)"></div>`}).join('')}
+function aiq(i,v){const x=ai[i];x.g=+v||0;const s=x.g/x.g0;$('as'+i).textContent=`${Math.round(x.k*s)} kcal · P ${Math.round(x.p*s)} · G ${Math.round(x.c*s)} · L ${Math.round(x.f*s)}`}
+function addAI(){ai.forEach(x=>{if(x.g>0){const s=x.g/x.g0;push({n:x.n,q:Math.round(x.g),k:x.k*s,p:x.p*s,c:x.c*s,f:x.f*s})}});
+ ai=[];showAI();$('aia').hidden=true;$('pv').hidden=true;$('pst').hidden=true;render()}
+
+/* ---- Affichage ---- */
+function count(el,to){const from=+el.dataset.v||0,t0=performance.now();el.dataset.v=to;
+ (function s(t){const k=Math.min((t-t0)/900,1),e=1-Math.pow(1-k,3);el.textContent=Math.round(from+(to-from)*e);if(k<1)requestAnimationFrame(s)})(t0)}
+function bar(l,v,t,col,u,id){return `<div class="mb"><div class="row"><span>${l}</span><span><span data-n="${id}" data-to="${v}">0</span>${t?' / '+Math.round(t):''} ${u}</span></div><div class="bar"><i data-w="${t?Math.min(v/t*100,100):0}" style="background:${col}"></i></div></div>`}
+function render(){const T=target();
+ const s=log.reduce((a,e)=>({k:a.k+e.k,p:a.p+e.p,c:a.c+e.c,f:a.f+e.f}),{k:0,p:0,c:0,f:0});
+ $('mini-goal').textContent = T ? `${Math.round(T.kcal)} kcal` : '0 kcal';
+ $('mini-protein').textContent = T ? `${Math.round(T.p)} g` : '0 g';
+ $('goal').innerHTML=T?`<div class="goal"><div class="ring"><svg viewBox="0 0 120 120"><circle class="t" cx="60" cy="60" r="54"/><circle class="v" id="rv" cx="60" cy="60" r="54"/></svg><div class="ct"><b data-n="ring" data-to="${s.k}">0</b><span class="mu">/ ${Math.round(T.kcal)} kcal</span></div></div>
+ <div class="chips"><span class="chip">Objectif ${Math.round(T.kcal)} kcal</span><span class="chip" style="color:var(--p)">${Math.round(T.p)} g prot.</span><span class="chip" style="color:var(--c)">${Math.round(T.c)} g gluc.</span><span class="chip" style="color:var(--f)">${Math.round(T.f)} g lip.</span><span class="chip">Base ${Math.round(T.bmr)}</span><span class="chip">Dépense ${Math.round(T.tdee)}</span></div></div>
+ ${T.kcal<T.bmr?`<div class="warn">Cet objectif est sous ton métabolisme de base : risque de fonte musculaire et de fatigue. Réduis le déficit.</div>`:''}`:'<div class="mu" style="margin-top:14px">Remplis tes données puis touche « Calculer ».</div>';
+ $('sum').innerHTML=bar('Calories',s.k,T&&T.kcal,'var(--ac)','kcal','k')+bar('Protéines',s.p,T&&T.p,'var(--p)','g','p')+bar('Glucides',s.c,T&&T.c,'var(--c)','g','c')+bar('Lipides',s.f,T&&T.f,'var(--f)','g','f')
+ +(T?`<div class="rest"><span>${T.kcal-s.k>=0?'Reste à manger':'Dépassement'}</span><span>${Math.abs(Math.round(T.kcal-s.k))} kcal</span></div>`:'');
+ $('tb').innerHTML=log.length?'<div style="height:10px"></div>'+log.map((e,i)=>`<div class="it" style="${i===fresh?'':'animation:none'}"><div>${esc(e.n)} <small>${e.q} g · P ${Math.round(e.p)} · G ${Math.round(e.c)} · L ${Math.round(e.f)}</small></div><span class="k">${Math.round(e.k)} kcal</span><button class="x" onclick="del(${i})">✕</button></div>`).join(''):'<div class="mu" style="text-align:center;padding:14px 0 4px">Rien d\'ajouté pour l\'instant</div>';
+ requestAnimationFrame(()=>{document.querySelectorAll('[data-w]').forEach(b=>b.style.width=b.dataset.w+'%');
+  document.querySelectorAll('[data-n]').forEach(el=>count(el,+el.dataset.to));
+  const rv=$('rv');if(rv&&T){rv.style.strokeDashoffset=339.3*(1-Math.min(s.k/T.kcal,1));rv.style.stroke=s.k>T.kcal?'var(--p)':'var(--ac)'}})}
+init();
+</script>
+</body>
+</html>

@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>100+ recettes nutrition</title>
+  <style>
+    :root {
+      --bg: #f4f7f5;
+      --bg-2: #edf9f5;
+      --card: rgba(255,255,255,0.9);
+      --line: rgba(17,24,39,0.08);
+      --text: #1f2a37;
+      --muted: #667085;
+      --green: #0f9d7a;
+      --green-dark: #0b6a57;
+      --shadow: 0 18px 40px rgba(17,24,39,.08);
+      --red: #ff6b57;
+      --orange: #ff9f43;
+      --blue: #4f8ef7;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, "Segoe UI", sans-serif;
+      background: linear-gradient(180deg, var(--bg-2) 0%, var(--bg) 30%, #f7f9fb 100%);
+      color: var(--text);
+    }
+    a { color: inherit; text-decoration: none; }
+    .container { max-width: 1280px; margin: 0 auto; padding: 30px 18px 80px; }
+    .topbar {
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      margin-bottom: 22px; flex-wrap: wrap;
+    }
+    .brand {
+      display:flex; align-items:center; gap:12px; font-weight:800; font-size: 1.1rem;
+    }
+    .brand-mark {
+      width: 42px; height: 42px; border-radius: 14px;
+      background: linear-gradient(135deg, var(--green), #3ec9a8);
+      display:grid; place-items:center; color:#fff; font-weight:900; box-shadow: var(--shadow);
+    }
+    .nav {
+      display:flex; align-items:center; gap:10px; flex-wrap: wrap;
+    }
+    .nav a, .nav button {
+      border: 1px solid var(--line); background: rgba(255,255,255,.7); border-radius: 999px;
+      padding: 10px 14px; font-weight:600; color: var(--text); cursor:pointer;
+    }
+    .hero {
+      background: linear-gradient(135deg, rgba(15,157,122,.08), rgba(79,142,247,.06));
+      border:1px solid rgba(15,157,122,.12); border-radius: 30px; padding: 26px; margin-bottom: 24px;
+      box-shadow: var(--shadow);
+    }
+    .hero-grid {
+      display:grid; grid-template-columns: 1.6fr .8fr; gap:22px; align-items:center;
+    }
+    .eyebrow {
+      display:inline-flex; background: rgba(15,157,122,.12); color: var(--green-dark);
+      border-radius:999px; padding:8px 12px; font-weight:700; font-size:12px; letter-spacing:.08em; text-transform:uppercase;
+    }
+    h1 {
+      margin: 18px 0 10px; font-size: clamp(2.2rem, 5vw, 4rem); line-height: 1; letter-spacing: -.06em;
+    }
+    .lead {
+      margin: 0; color: var(--muted); font-size: 1.02rem; max-width: 620px;
+    }
+    .hero-metrics {
+      display:grid; grid-template-columns: repeat(2, minmax(120px, 1fr)); gap:12px;
+    }
+    .metric {
+      background: rgba(255,255,255,.75); border:1px solid var(--line); border-radius: 22px; padding: 16px;
+      box-shadow: 0 10px 18px rgba(15,23,42,.04);
+    }
+    .metric small { color: var(--muted); display:block; text-transform:uppercase; letter-spacing:.08em; font-weight:700; }
+    .metric strong { display:block; margin-top: 10px; font-size: 2rem; letter-spacing:-.05em; }
+    .controls {
+      background: rgba(255,255,255,.76); border:1px solid var(--line); border-radius: 24px;
+      padding: 18px; box-shadow: var(--shadow); margin-bottom: 24px;
+    }
+    .search-row {
+      display:grid; grid-template-columns: 1.3fr .7fr auto; gap:12px; align-items:center;
+    }
+    .field label {
+      display:block; margin-bottom: 8px; font-weight:700; color: var(--muted); font-size: 12px; letter-spacing: .06em; text-transform: uppercase;
+    }
+    .field input, .field select {
+      width:100%; background: #f4f6f7; border:1px solid var(--line); border-radius: 14px; padding: 13px 14px; font: inherit; color: var(--text);
+    }
+    .field input:focus, .field select:focus { outline:none; border-color: rgba(15,157,122,.5); box-shadow: 0 0 0 4px rgba(15,157,122,.1); }
+    .action {
+      border: none; background: linear-gradient(135deg, var(--green), #1bb9a5); color:#fff; padding: 13px 18px; border-radius: 14px; font-weight:700; cursor:pointer;
+      box-shadow: 0 16px 22px rgba(15,157,122,.2);
+    }
+    .filters {
+      margin-top: 16px; display:flex; flex-wrap: wrap; gap:8px;
+    }
+    .chip {
+      background: rgba(15,157,122,.06); color: var(--green-dark); border: 1px solid rgba(15,157,122,.08); border-radius: 999px; padding: 8px 12px; cursor: pointer; font-weight:700; font-size: 13px;
+    }
+    .chip.active {
+      background: linear-gradient(135deg, var(--green), #17bca0); color:#fff; border-color: transparent;
+      box-shadow: 0 10px 18px rgba(15,157,122,.15);
+    }
+    .results-head {
+      display:flex; justify-content:space-between; align-items:center; gap:12px; margin: 18px 8px 14px;
+      flex-wrap: wrap;
+    }
+    .results-head strong { font-size: 1.1rem; }
+    .grid {
+      display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px;
+    }
+    .card {
+      background: var(--card); border:1px solid var(--line); border-radius: 24px; overflow:hidden;
+      box-shadow: var(--shadow); display:flex; flex-direction:column; min-height: 100%;
+    }
+    .thumb {
+      height: 170px; background: linear-gradient(135deg, rgba(15,157,122,.12), rgba(79,142,247,.08));
+      display:flex; align-items:center; justify-content:center; font-size: 50px; position:relative;
+      background-size: cover; background-position: center; background-repeat: no-repeat;
+      overflow: hidden;
+    }
+    .thumb::after {
+      content: "";
+      position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(0,0,0,0.08), rgba(0,0,0,0.18));
+    }
+    .thumb > span:not(.badge) {
+      position: relative; z-index: 1;
+      filter: drop-shadow(0 8px 18px rgba(0,0,0,.18));
+    }
+    .badge {
+      position:absolute; top:12px; left:12px; background: rgba(255,255,255,.8); border:1px solid var(--line); border-radius:999px; padding: 6px 9px; font-size: 12px; font-weight:700; color: var(--green-dark);
+    }
+    .card-body { padding: 18px 18px 14px; display:flex; flex-direction:column; gap:10px; flex:1; }
+    .title-row { display:flex; align-items:flex-start; justify-content:space-between; gap:10px; }
+    .title-row h3 {
+      margin:0; font-size: 1.18rem; letter-spacing:-.03em; line-height:1.2;
+    }
+    .kcal { font-weight:800; color: var(--green-dark); }
+    .meta { display:flex; gap:6px; flex-wrap:wrap; }
+    .meta span {
+      background: rgba(17,24,39,.04); color: var(--muted); border-radius:999px; padding: 6px 9px; font-size: 12px; font-weight:700;
+    }
+    .desc { color: var(--muted); margin:0; font-size: 0.95rem; }
+    .macros {
+      display:grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 4px;
+    }
+    .macro {
+      background: rgba(17,24,39,.03); border-radius: 12px; padding: 10px 8px; text-align:center; border:1px solid rgba(17,24,39,.04);
+    }
+    .macro small { display:block; color: var(--muted); font-size:11px; text-transform:uppercase; letter-spacing:.05em; }
+    .macro strong { display:block; margin-top:4px; font-size: 1rem; }
+    .footer-actions {
+      display:flex; gap:8px; margin-top: auto; padding-top: 8px;
+    }
+    .secondary, .primary {
+      flex:1; border-radius: 12px; padding: 10px 12px; font-weight:700; text-align:center; border:1px solid transparent; cursor:pointer; font-size: 0.94rem;
+    }
+    .secondary { background: rgba(17,24,39,.04); color: var(--text); border-color: rgba(17,24,39,.06); }
+    .primary { background: linear-gradient(135deg, var(--green), #1bb9a5); color:#fff; }
+    .empty {
+      display:none; background: rgba(255,255,255,.75); border:1px dashed rgba(17,24,39,.14); border-radius: 20px; padding: 26px; color: var(--muted); text-align:center; margin-top:18px;
+    }
+    @media (max-width: 860px) {
+      .hero-grid, .search-row { grid-template-columns: 1fr; }
+      .topbar { align-items:flex-start; }
+      .nav { width:100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">N</div>
+        <span>Nutrition Planner</span>
+      </div>
+      <nav class="nav">
+        <a href="nutrition_site.html">Retour au calculateur</a>
+        <button type="button" onclick="window.location.href='nutrition_site.html'">Mon journal</button>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="hero-grid">
+        <div>
+          <span class="eyebrow">100+ idées</span>
+          <h1>Recettes inspirées des tendances food</h1>
+          <p class="lead">Une bibliothèque de plats variés, pensée pour le fitness, la perte de poids, les repas rapides et les idées Instagram/TikTok. Tous les éléments sont disponibles en un clic pour être ajoutés à ton journal nutrition.</p>
+        </div>
+        <div class="hero-metrics">
+          <div class="metric">
+            <small>Plats</small>
+            <strong id="metric-count">120</strong>
+          </div>
+          <div class="metric">
+            <small>Catégories</small>
+            <strong>9</strong>
+          </div>
+          <div class="metric">
+            <small>Sources</small>
+            <strong>Web</strong>
+          </div>
+          <div class="metric">
+            <small>Style</small>
+            <strong>Fit</strong>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="controls">
+      <div class="search-row">
+        <div class="field">
+          <label for="searchInput">Recherche</label>
+          <input id="searchInput" type="text" placeholder="Cherche un plat, une tendance, un ingrédient..." />
+        </div>
+        <div class="field">
+          <label for="selectCategory">Catégorie</label>
+          <select id="selectCategory">
+            <option value="all">Toutes</option>
+            <option value="breakfast">Petit-déjeuner</option>
+            <option value="lunch">Déjeuner</option>
+            <option value="dinner">Dîner</option>
+            <option value="snack">Snack</option>
+            <option value="dessert">Dessert</option>
+            <option value="salad">Salade/Bowl</option>
+            <option value="vegan">Végétarien/Vegan</option>
+            <option value="high-protein">High protein</option>
+            <option value="low-carb">Low carb</option>
+          </select>
+        </div>
+        <button class="action" type="button" id="resetButton">Réinitialiser</button>
+      </div>
+
+      <div class="filters" id="filters"></div>
+    </section>
+
+    <div class="results-head">
+      <strong id="resultsLabel">120 plats disponibles</strong>
+    </div>
+
+    <div id="recipeGrid" class="grid"></div>
+    <div id="emptyState" class="empty">Aucun plat ne correspond à ta recherche. Essaie un autre mot-clé ou une autre catégorie.</div>
+  </div>
+
+  <script>
+    const categories = [
+      { key: 'all', label: 'Tous' },
+      { key: 'breakfast', label: 'Petit-déj' },
+      { key: 'lunch', label: 'Déjeuner' },
+      { key: 'dinner', label: 'Dîner' },
+      { key: 'salad', label: 'Salades/Bowls' },
+      { key: 'snack', label: 'Snacks' },
+      { key: 'high-protein', label: 'High protein' },
+      { key: 'low-carb', label: 'Low carb' },
+      { key: 'vegan', label: 'Végétarien' },
+      { key: 'dessert', label: 'Desserts' }
+    ];
+
+    const imagePool = {
+      breakfast: [
+        'https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=900&q=80',
+        'https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=900&q=80',
+        'https://images.unsplash.com/photo-1511690743698-d9d85f2fbf38?auto=format&fit=crop&w=900&q=80',
+        'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=900&q=80'
+      ],
+      lunch: [
+        'https://images.unsplash.com/photo-1547592166-23ac45744acd?auto=format&fit=crop&w=900&q=80',
+        'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?auto=format&fit=crop&w=900&q=80',
+        'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=900&q=80',
+        'https://images.unsplash.com/photo-1559847844-5315695dadae?auto=format&fit=crop&w=900&q=80'
+      ],
+      dinner: [
+        'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=900&q=80',
+        'https://images.unsplash.com/photo-1544025162-d76694265947?auto=format&fit=crop&w=900&q=80',
+        'https://images.unsplash.com/photo-1559847844-5315695dadae?auto=format&fit=crop&w=900&q=80',
+        'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?auto=format&fit=crop&w=900&q=80'
+      ],
+      salad: [
+        'https://images.unsplash.com/photo-1546793665-c74683f339c1?auto=format&fit=crop&w=900&q=80',
+        'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=900&q=80',
+        'https://images.unsplash.com/photo-1525351484163-7529414344d8?auto=format&fit=crop&w=900&q=80',
+        'https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=900&q=80'
+      ],
+      snack: [
+        'https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=900&q=80',
+        'https://images.unsplash.com/photo-1467453678174-768ec283a940?auto=format&fit=crop&w=900&q=80',
+        'https://images.unsplash.com/photo-1482049016688-2d3e1b311543?auto=format&fit=crop&w=900&q=80',
+        'https://images.unsplash.com/photo-1606787366850-de6330128bfc?auto=format&fit=crop&w=900&q=80'
+      ],
+      dessert: [
+        'https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&w=900&q=80',
+        'https://images.unsplash.com/photo-1559620192-032c4bc4674e?auto=format&fit=crop&w=900&q=80',
+        'https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=900&q=80',
+        'https://images.unsplash.com/photo-1551024506-0bccd828d307?auto=format&fit=crop&w=900&q=80'
+      ],
+      vegan: [
+        'https://images.unsplash.com/photo-1543332164-9a71ce4cd3da?auto=format&fit=crop&w=900&q=80',
+        'https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&w=900&q=80',
+        'https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?auto=format&fit=crop&w=900&q=80',
+        'https://images.unsplash.com/photo-1466637574441-749b8f19452f?auto=format&fit=crop&w=900&q=80'
+      ],
+      default: [
+        'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=900&q=80',
+        'https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=900&q=80',
+        'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=900&q=80',
+        'https://images.unsplash.com/photo-1528712306091-ed0763094c98?auto=format&fit=crop&w=900&q=80'
+      ]
+    };
+
+    function getRecipeImage(category, index) {
+      const candidates = imagePool[category] || imagePool.default;
+      return candidates[index % candidates.length];
+    }
+
+    const recipeData = [
+      { name: 'Porridge protéiné', category: 'breakfast', tag: 'high-protein', kcal: 390, p: 28, c: 38, f: 11, time: 10, recipe: 'Avoine, lait écrémé, whey, baies, chia.', source: 'Instagram @fitfooddaily', url: 'https://www.google.com/search?q=protéine+oatmeal+recipe', emoji: '🥣' },
+      { name: 'Avocat toast épicé', category: 'breakfast', tag: 'vegan', kcal: 420, p: 15, c: 29, f: 24, time: 12, recipe: 'Pain complet, avocat, œuf mollet, tomates, piment.', source: 'TikTok @healthyvibes', url: 'https://www.tiktok.com/search?q=avocado%20toast', emoji: '🥑' },
+      { name: 'Smoothie bowl', category: 'breakfast', tag: 'vegan', kcal: 360, p: 20, c: 41, f: 9, time: 8, recipe: 'Banane, lait végétal, myrtilles, granola, graines.', source: 'Pinterest trends', url: 'https://www.google.com/search?q=smoothie+bowl+recipe', emoji: '🍌' },
+      { name: 'Brioche fit aux fruits', category: 'breakfast', tag: 'high-protein', kcal: 330, p: 23, c: 34, f: 8, time: 15, recipe: 'Pain riche en protéines, yaourt, fruits rouges.', source: 'Instagram @gymfood', url: 'https://www.google.com/search?q=high+protein+breakfast+toast', emoji: '🍓' },
+      { name: 'Oeufs brouillés épicés', category: 'breakfast', tag: 'low-carb', kcal: 310, p: 26, c: 8, f: 18, time: 10, recipe: 'Œufs, épinards, fromage, poivrons.', source: 'Web nutrition', url: 'https://www.google.com/search?q=egg+scramble+recipe', emoji: '🍳' },
+      { name: 'Salade de poulet Cobb', category: 'lunch', tag: 'high-protein', kcal: 560, p: 44, c: 24, f: 30, time: 18, recipe: 'Poulet grillé, avocat, œuf, légumes verts, feta.', source: 'Instagram @healthyeats', url: 'https://www.google.com/search?q=cobb+salad+recipe', emoji: '🥗' },
+      { name: 'Bowl quinoa poulet', category: 'lunch', tag: 'high-protein', kcal: 610, p: 42, c: 52, f: 21, time: 22, recipe: 'Quinoa, poulet, légumes, sauce yaourt citron.', source: 'TikTok @mealprep', url: 'https://www.google.com/search?q=quinoa+chicken+bowl+recipe', emoji: '🥗' },
+      { name: 'Wrap de dinde light', category: 'lunch', tag: 'high-protein', kcal: 430, p: 35, c: 32, f: 14, time: 14, recipe: 'Tortilla complète, dinde, salade, fromage blanc.', source: 'Pinterest', url: 'https://www.google.com/search?q=turkey+wrap+recipe', emoji: '🌯' },
+      { name: 'Salade thaï aux crevettes', category: 'lunch', tag: 'low-carb', kcal: 480, p: 31, c: 19, f: 27, time: 16, recipe: 'Crevettes, légumes croquants, cacahuètes, citron.', source: 'Instagram @foodiechunk', url: 'https://www.google.com/search?q=thai+shrimp+salad+recipe', emoji: '🍤' },
+      { name: 'Bowl végétal proteiné', category: 'lunch', tag: 'vegan', kcal: 520, p: 29, c: 49, f: 21, time: 20, recipe: 'Pois chiches, quinoa, légumes, houmous, graines.', source: 'Google trends', url: 'https://www.google.com/search?q=vegan+protein+bowl+recipe', emoji: '🥬' },
+      { name: 'Filet de saumon rôti', category: 'dinner', tag: 'high-protein', kcal: 650, p: 46, c: 28, f: 36, time: 25, recipe: 'Saumon, pommes de terre, asperges, huile d’olive.', source: 'TikTok @fitfoodrecipes', url: 'https://www.google.com/search?q=salmon+dinner+recipe', emoji: '🐟' },
+      { name: 'Poitrine de poulet grillée', category: 'dinner', tag: 'high-protein', kcal: 560, p: 53, c: 22, f: 20, time: 24, recipe: 'Poulet, riz complet, courgettes, herbes.', source: 'Instagram @nutritionclub', url: 'https://www.google.com/search?q=grilled+chicken+recipe', emoji: '🍗' },
+      { name: 'Burger de bœuf fit', category: 'dinner', tag: 'high-protein', kcal: 610, p: 41, c: 33, f: 29, time: 18, recipe: 'Bœuf haché maigre, bun complet, salade, tomate.', source: 'TikTok @smashburgerfit', url: 'https://www.google.com/search?q=healthy+burger+recipe', emoji: '🍔' },
+      { name: 'Sauté de légumes et tofu', category: 'dinner', tag: 'vegan', kcal: 490, p: 25, c: 38, f: 23, time: 17, recipe: 'Tofu, brocoli, poireaux, edamame, sauce soja.', source: 'Instagram @veganmealprep', url: 'https://www.google.com/search?q=tofu+veggie+stir+fry+recipe', emoji: '🥦' },
+      { name: 'Courgettes farcies', category: 'dinner', tag: 'low-carb', kcal: 430, p: 24, c: 17, f: 27, time: 30, recipe: 'Courgettes, viande hachée, tomate, fromage.', source: 'Pinterest', url: 'https://www.google.com/search?q=zucchini+stuffed+recipe', emoji: '🥒' },
+      { name: 'Buddha bowl proteiné', category: 'salad', tag: 'high-protein', kcal: 540, p: 33, c: 47, f: 22, time: 20, recipe: 'Riz, pois chiches, légumes, saumon, tahin.', source: 'Instagram @mealprep', url: 'https://www.google.com/search?q=buddha+bowl+recipe', emoji: '🥙' },
+      { name: 'Salade mexicaine', category: 'salad', tag: 'low-carb', kcal: 470, p: 27, c: 21, f: 28, time: 15, recipe: 'Poulet, maïs, avocat, poivrons, coriandre.', source: 'TikTok @slimfitfood', url: 'https://www.google.com/search?q=mexican+chicken+salad+recipe', emoji: '🌮' },
+      { name: 'Salade de pois chiches', category: 'salad', tag: 'vegan', kcal: 440, p: 18, c: 44, f: 19, time: 12, recipe: 'Pois chiches, concombre, tomate, feta végétale.', source: 'Web vegan', url: 'https://www.google.com/search?q=chickpea+salad+recipe', emoji: '🫘' },
+      { name: 'Sushi bowl fit', category: 'salad', tag: 'high-protein', kcal: 520, p: 34, c: 46, f: 17, time: 18, recipe: 'Rice bowl, saumon, concombre, edamame, soja.', source: 'Instagram @sushibowl', url: 'https://www.google.com/search?q=sushi+bowl+recipe', emoji: '🍣' },
+      { name: 'Poke bowl protéiné', category: 'salad', tag: 'high-protein', kcal: 610, p: 40, c: 42, f: 26, time: 19, recipe: 'Thon, riz, carottes, avocat, edamame.', source: 'Web', url: 'https://www.google.com/search?q=poke+bowl+recipe', emoji: '🐠' },
+      { name: 'Cottage cheese bowl', category: 'snack', tag: 'high-protein', kcal: 280, p: 24, c: 20, f: 8, time: 6, recipe: 'Fromage blanc, fruits, graines, miel.', source: 'TikTok @healthyhits', url: 'https://www.google.com/search?q=cottage+cheese+bowl+recipe', emoji: '🥣' },
+      { name: 'Energy balls', category: 'snack', tag: 'vegan', kcal: 220, p: 7, c: 28, f: 10, time: 8, recipe: 'Amande, dattes, graines, cacao.', source: 'Instagram @plantpower', url: 'https://www.google.com/search?q=energy+balls+recipe', emoji: '⚡' },
+      { name: 'Yogurt parfait', category: 'snack', tag: 'high-protein', kcal: 260, p: 21, c: 26, f: 7, time: 5, recipe: 'Yaourt grec, granola, baies, noix.', source: 'Instagram @fit.snacks', url: 'https://www.google.com/search?q=greek+yogurt+parfait+recipe', emoji: '🥣' },
+      { name: 'Hummus légumes', category: 'snack', tag: 'vegan', kcal: 220, p: 9, c: 19, f: 11, time: 7, recipe: 'Houmous, carottes, poivrons, concombres.', source: 'Pinterest', url: 'https://www.google.com/search?q=hummus+veggie+snack+recipe', emoji: '🥕' },
+      { name: 'Mini pancakes sains', category: 'breakfast', tag: 'high-protein', kcal: 360, p: 25, c: 30, f: 12, time: 15, recipe: 'Œufs, flocons d’avoine, banane, yaourt grec.', source: 'TikTok @breakfastfit', url: 'https://www.google.com/search?q=healthy+pancakes+recipe', emoji: '🥞' },
+      { name: 'Cheesecake protéinée', category: 'dessert', tag: 'high-protein', kcal: 310, p: 24, c: 19, f: 14, time: 20, recipe: 'Fromage blanc, protéines, fruits, biscuits fit.', source: 'Instagram @proteinpi', url: 'https://www.google.com/search?q=protein+cheesecake+recipe', emoji: '🍰' },
+      { name: 'Brownie protéiné', category: 'dessert', tag: 'high-protein', kcal: 290, p: 22, c: 32, f: 9, time: 18, recipe: 'Haricots noirs, cacao, whey, érythritol.', source: 'TikTok @sweetprotein', url: 'https://www.google.com/search?q=protein+brownie+recipe', emoji: '🍫' },
+      { name: 'Nice cream', category: 'dessert', tag: 'vegan', kcal: 220, p: 5, c: 28, f: 7, time: 10, recipe: 'Banane glacée, lait végétal, cacao.', source: 'Instagram @healthyicecream', url: 'https://www.google.com/search?q=nice+cream+recipe', emoji: '🍦' },
+      { name: 'Mousse au chocolat', category: 'dessert', tag: 'low-carb', kcal: 260, p: 18, c: 12, f: 15, time: 12, recipe: 'Chocolat noir, crème, œufs, cacao.', source: 'Pinterest', url: 'https://www.google.com/search?q=chocolate+mousse+recipe', emoji: '🍫' },
+      { name: 'Crêpes de riz soufflé', category: 'breakfast', tag: 'vegan', kcal: 370, p: 13, c: 46, f: 11, time: 15, recipe: 'Riz, lait végétal, banane, cannelle.', source: 'TikTok @brunchvegan', url: 'https://www.google.com/search?q=vegan+rice+pancakes+recipe', emoji: '🥞' },
+      { name: 'Toasts de ricotta', category: 'breakfast', tag: 'high-protein', kcal: 350, p: 24, c: 28, f: 15, time: 10, recipe: 'Pain complet, ricotta, tomate, basilic.', source: 'Instagram @foodiesfit', url: 'https://www.google.com/search?q=ricotta+toast+recipe', emoji: '🍅' },
+      { name: 'Bowl de patate douce', category: 'lunch', tag: 'vegan', kcal: 480, p: 18, c: 57, f: 18, time: 20, recipe: 'Patate douce, pois chiches, légumes, tahin.', source: 'Pinterest', url: 'https://www.google.com/search?q=sweet+potato+bowl+recipe', emoji: '🍠' },
+      { name: 'Tacos de poulet épicés', category: 'dinner', tag: 'high-protein', kcal: 620, p: 39, c: 44, f: 29, time: 22, recipe: 'Poulet, tortillas, coleslaw, salsa.', source: 'Instagram @tacosfitness', url: 'https://www.google.com/search?q=healthy+chicken+tacos+recipe', emoji: '🌮' },
+      { name: 'Bowl de chou et riz', category: 'salad', tag: 'low-carb', kcal: 390, p: 26, c: 18, f: 18, time: 17, recipe: 'Riz sauvage, poulet, chou, sésame.', source: 'TikTok @greenfoodie', url: 'https://www.google.com/search?q=slaw+riss+recipe', emoji: '🥬' },
+      { name: 'Kebab bowl', category: 'lunch', tag: 'high-protein', kcal: 510, p: 36, c: 33, f: 23, time: 18, recipe: 'Dinde, riz, salade, yaourt, oignon.', source: 'Web food', url: 'https://www.google.com/search?q=kebab+bowl+recipe', emoji: '🥙' },
+      { name: 'Burrito fit', category: 'lunch', tag: 'high-protein', kcal: 560, p: 38, c: 49, f: 19, time: 16, recipe: 'Tortilla complète, riz, haricots, poulet.', source: 'Instagram @freshburritos', url: 'https://www.google.com/search?q=healthy+burrito+recipe', emoji: '🌯' },
+      { name: 'Tartare de saumon', category: 'dinner', tag: 'low-carb', kcal: 470, p: 32, c: 13, f: 28, time: 20, recipe: 'Saumon cru, avocats, citron, wasabi.', source: 'TikTok @seafoodfit', url: 'https://www.google.com/search?q=salmon+tartare+recipe', emoji: '🍣' },
+      { name: 'Poulet teriyaki', category: 'dinner', tag: 'high-protein', kcal: 580, p: 46, c: 36, f: 21, time: 25, recipe: 'Poulet, riz, légumes, sauce teriyaki maison.', source: 'Instagram @fitkitchen', url: 'https://www.google.com/search?q=teriyaki+chicken+recipe', emoji: '🍱' },
+      { name: 'Frittata aux légumes', category: 'breakfast', tag: 'low-carb', kcal: 340, p: 22, c: 10, f: 22, time: 18, recipe: 'Œufs, épinards, fromage, poivrons.', source: 'Pinterest', url: 'https://www.google.com/search?q=frittata+recipe', emoji: '🍳' },
+      { name: 'Lentilles au curry', category: 'dinner', tag: 'vegan', kcal: 470, p: 20, c: 49, f: 19, time: 26, recipe: 'Lentilles, coco, légumes, épices.', source: 'Instagram @plantfuel', url: 'https://www.google.com/search?q=vegan+curry+lentils+recipe', emoji: '🥘' },
+      { name: 'Poisson grillé asymétrique', category: 'dinner', tag: 'high-protein', kcal: 520, p: 44, c: 23, f: 22, time: 21, recipe: 'Poisson blanc, légumes grillés, herbes.', source: 'Web fish', url: 'https://www.google.com/search?q=grilled+fish+recipe', emoji: '🐟' },
+      { name: 'Bowl d’algues et tofu', category: 'salad', tag: 'vegan', kcal: 460, p: 23, c: 32, f: 22, time: 15, recipe: 'Tofu, algues, riz, légumes, sésame.', source: 'Instagram @veganbowl', url: 'https://www.google.com/search?q=seaweed+tofu+bowl+recipe', emoji: '🥬' },
+      { name: 'Muffins protéinés', category: 'snack', tag: 'high-protein', kcal: 260, p: 18, c: 24, f: 8, time: 16, recipe: 'Oeufs, flocons avoine, bleuets, whey.', source: 'TikTok @muffinsfit', url: 'https://www.google.com/search?q=protein+muffins+recipe', emoji: '🧁' },
+      { name: 'Tranches d’orange chia', category: 'breakfast', tag: 'vegan', kcal: 230, p: 7, c: 27, f: 9, time: 8, recipe: 'Orange, chia, granola, yaourt végétal.', source: 'Pinterest', url: 'https://www.google.com/search?q=chia+orange+breakfast+recipe', emoji: '🍊' },
+      { name: 'Bagel de poulet', category: 'lunch', tag: 'high-protein', kcal: 500, p: 42, c: 34, f: 19, time: 17, recipe: 'Bagel complet, poitrine de poulet, salade.', source: 'Instagram @highproteinbagel', url: 'https://www.google.com/search?q=protein+bagel+recipe', emoji: '🥯' },
+      { name: 'Gaufres fitness', category: 'breakfast', tag: 'high-protein', kcal: 320, p: 22, c: 31, f: 9, time: 12, recipe: 'Avoine, œufs, banane, yaourt grec.', source: 'TikTok @fitwaffles', url: 'https://www.google.com/search?q=protein+waffles+recipe', emoji: '🧇' },
+      { name: 'Bowl de saumon et avocat', category: 'lunch', tag: 'low-carb', kcal: 560, p: 36, c: 17, f: 36, time: 18, recipe: 'Saumon, salade, avocat, oignon rouge.', source: 'Instagram @salmonbowl', url: 'https://www.google.com/search?q=salmon+avocado+bowl+recipe', emoji: '🥑' },
+      { name: 'Sauté de tofu au curry', category: 'dinner', tag: 'vegan', kcal: 460, p: 24, c: 39, f: 21, time: 19, recipe: 'Tofu, curry vert, légumes, lait de coco.', source: 'TikTok @veganfoodclub', url: 'https://www.google.com/search?q=tofu+curry+recipe', emoji: '🥥' },
+      { name: 'Pain perdu protéiné', category: 'breakfast', tag: 'high-protein', kcal: 390, p: 27, c: 33, f: 13, time: 14, recipe: 'Pain de seigle, œufs, protéines, fruit.', source: 'Instagram @fitbrunch', url: 'https://www.google.com/search?q=protein+french+toast+recipe', emoji: '🍞' },
+      { name: 'Tacos végétariens', category: 'dinner', tag: 'vegan', kcal: 520, p: 20, c: 44, f: 25, time: 18, recipe: 'Haricots, maïs, avocat, tacos de maïs.', source: 'Pinterest', url: 'https://www.google.com/search?q=vegan+tacos+recipe', emoji: '🌮' },
+      { name: 'Dumplings protéinés', category: 'dinner', tag: 'high-protein', kcal: 560, p: 38, c: 45, f: 20, time: 25, recipe: 'Dumplings au poulet et légumes, sauce soja.', source: 'TikTok @dumplings', url: 'https://www.google.com/search?q=protein+dumplings+recipe', emoji: '🥟' },
+      { name: 'Salade de quinoa feta', category: 'lunch', tag: 'vegan', kcal: 440, p: 19, c: 37, f: 22, time: 12, recipe: 'Quinoa, concombres, tomates, feta.', source: 'Instagram @saladfactory', url: 'https://www.google.com/search?q=quinoa+feta+salad+recipe', emoji: '🥗' },
+      { name: 'Mini burgers de poisson', category: 'dinner', tag: 'high-protein', kcal: 520, p: 34, c: 31, f: 24, time: 16, recipe: 'Filet de poisson, pain complet, salade.', source: 'Google', url: 'https://www.google.com/search?q=healthy+fish+burger+recipe', emoji: '🍔' },
+      { name: 'Gâteau flocons d’avoine', category: 'dessert', tag: 'vegan', kcal: 280, p: 9, c: 31, f: 9, time: 22, recipe: 'Avoine, banane, cannelle, noix.', source: 'Pinterest', url: 'https://www.google.com/search?q=oatmeal+cake+recipe', emoji: '🍰' },
+      { name: 'Pancakes banane œufs', category: 'breakfast', tag: 'low-carb', kcal: 330, p: 18, c: 24, f: 16, time: 14, recipe: 'Banane, œufs, cannelle, beurre de cacahuète.', source: 'TikTok @eggbananapancakes', url: 'https://www.google.com/search?q=banana+egg+pancakes+recipe', emoji: '🥞' },
+      { name: 'Muesli à la noix', category: 'breakfast', tag: 'vegan', kcal: 360, p: 11, c: 40, f: 14, time: 7, recipe: 'Muesli, lait végétal, noix, fruits secs.', source: 'Instagram @healthybreakfast', url: 'https://www.google.com/search?q=muesli+recipe', emoji: '🥣' },
+      { name: 'Croque madame fitness', category: 'lunch', tag: 'high-protein', kcal: 530, p: 36, c: 24, f: 27, time: 18, recipe: 'Pain complet, poulet, œufs, fromage light.', source: 'Web', url: 'https://www.google.com/search?q=healthy+croque+madame+recipe', emoji: '🥪' },
+      { name: 'Bowl de riz et légumes', category: 'lunch', tag: 'vegan', kcal: 440, p: 18, c: 54, f: 15, time: 16, recipe: 'Riz, haricots, légumes verts, edamame.', source: 'Instagram @veganbowl', url: 'https://www.google.com/search?q=rice+veggie+bowl+recipe', emoji: '🥬' },
+      { name: 'Ceviche de poisson', category: 'dinner', tag: 'low-carb', kcal: 410, p: 29, c: 14, f: 22, time: 20, recipe: 'Poisson, citron, avocat, piment, oignon.', source: 'TikTok @nutritionfresh', url: 'https://www.google.com/search?q=ceviche+recipe', emoji: '🍋' },
+      { name: 'Thon toast proteiné', category: 'snack', tag: 'high-protein', kcal: 300, p: 25, c: 22, f: 10, time: 8, recipe: 'Thon, fromage blanc, pain complet.', source: 'Instagram @proteinlunch', url: 'https://www.google.com/search?q=tuna+toast+recipe', emoji: '🍞' },
+      { name: 'Poulet grec salad', category: 'salad', tag: 'high-protein', kcal: 500, p: 41, c: 18, f: 25, time: 15, recipe: 'Poulet, tomates, fromage feta, olives.', source: 'Google', url: 'https://www.google.com/search?q=greek+chicken+salad+recipe', emoji: '🥗' },
+      { name: 'Taquitos légers', category: 'dinner', tag: 'high-protein', kcal: 480, p: 33, c: 34, f: 19, time: 20, recipe: 'Tortillas, poulet, fromage light, salsa.', source: 'TikTok @taquitofitness', url: 'https://www.google.com/search?q=healthy+taquitos+recipe', emoji: '🌮' },
+      { name: 'Potage de pois cassés', category: 'lunch', tag: 'vegan', kcal: 380, p: 19, c: 42, f: 10, time: 25, recipe: 'Pois cassés, carottes, épices, légumes.', source: 'Pinterest', url: 'https://www.google.com/search?q=split+pea+soup+recipe', emoji: '🥣' },
+      { name: 'Pâtes de légumineuses', category: 'dinner', tag: 'high-protein', kcal: 490, p: 31, c: 44, f: 17, time: 16, recipe: 'Pâtes à base de pois chiches, sauce tomate.', source: 'Instagram @pastahealth', url: 'https://www.google.com/search?q=legume+pasta+recipe', emoji: '🍝' },
+      { name: 'Ratatouille bowl', category: 'dinner', tag: 'vegan', kcal: 420, p: 14, c: 38, f: 18, time: 22, recipe: 'Aubergines, courgettes, tomates, quinoa.', source: 'Web', url: 'https://www.google.com/search?q=ratatouille+recipe', emoji: '🍅' },
+      { name: 'Layer cake healthy', category: 'dessert', tag: 'high-protein', kcal: 330, p: 22, c: 27, f: 12, time: 20, recipe: 'Yaourt grec, fruits, granola, cacao.', source: 'Instagram @dessertfit', url: 'https://www.google.com/search?q=healthy+layer+cake+recipe', emoji: '🍰' },
+      { name: 'Pudding chia', category: 'dessert', tag: 'vegan', kcal: 240, p: 8, c: 24, f: 11, time: 10, recipe: 'Chia, lait végétal, mangue, fruits.', source: 'TikTok @chiasnack', url: 'https://www.google.com/search?q=chia+pudding+recipe', emoji: '🥣' },
+      { name: 'Bananes au four', category: 'dessert', tag: 'vegan', kcal: 210, p: 5, c: 30, f: 4, time: 12, recipe: 'Bananes, cannelle, noix, graines.', source: 'Pinterest', url: 'https://www.google.com/search?q=baked+bananas+recipe', emoji: '🍌' },
+      { name: 'Crêpes aux myrtilles', category: 'breakfast', tag: 'vegan', kcal: 360, p: 11, c: 42, f: 12, time: 15, recipe: 'Crêpes légères aux myrtilles et sirop.', source: 'Instagram @brunchgood', url: 'https://www.google.com/search?q=blueberry+pancakes+recipe', emoji: '🫐' },
+      { name: 'Avo-coco bowl', category: 'snack', tag: 'vegan', kcal: 310, p: 9, c: 22, f: 20, time: 8, recipe: 'Avocat, coco, graines, fruits frais.', source: 'TikTok @healthyraw', url: 'https://www.google.com/search?q=avocado+coconut+bowl+recipe', emoji: '🥥' },
+      { name: 'Burrata salad', category: 'salad', tag: 'low-carb', kcal: 420, p: 22, c: 19, f: 27, time: 12, recipe: 'Burrata, tomates, basilic, salade verte.', source: 'Instagram @saladbar', url: 'https://www.google.com/search?q=burrata+salad+recipe', emoji: '🍅' },
+      { name: 'Aperitivo de saumon', category: 'snack', tag: 'high-protein', kcal: 270, p: 24, c: 10, f: 15, time: 9, recipe: 'Saumon fumé, avocat, concombre.', source: 'Pinterest', url: 'https://www.google.com/search?q=salmon+snack+recipe', emoji: '🐟' },
+      { name: 'Salade de quinoa tropicale', category: 'salad', tag: 'vegan', kcal: 430, p: 17, c: 48, f: 16, time: 15, recipe: 'Quinoa, mangue, avocat, pois chiches.', source: 'TikTok @islandfood', url: 'https://www.google.com/search?q=tropical+quinoa+salad+recipe', emoji: '🥭' },
+      { name: 'Gyoza de poulet', category: 'dinner', tag: 'high-protein', kcal: 520, p: 37, c: 36, f: 22, time: 26, recipe: 'Gyoza maison au poulet, légumes, sauce soja.', source: 'Instagram @asianfit', url: 'https://www.google.com/search?q=healthy+gyoza+recipe', emoji: '🥟' },
+      { name: 'Chili con carne light', category: 'dinner', tag: 'high-protein', kcal: 540, p: 40, c: 35, f: 21, time: 28, recipe: 'Viande, haricots, tomates, poivrons.', source: 'Web', url: 'https://www.google.com/search?q=chili+con+carne+recipe', emoji: '🌶️' },
+      { name: 'Sauté de pois chiches', category: 'snack', tag: 'vegan', kcal: 250, p: 12, c: 28, f: 9, time: 11, recipe: 'Pois chiches, épices, paprika, citron.', source: 'Pinterest', url: 'https://www.google.com/search?q=chickpea+saute+recipe', emoji: '🫘' },
+      { name: 'Smoothie protéines', category: 'snack', tag: 'high-protein', kcal: 280, p: 26, c: 19, f: 8, time: 6, recipe: 'Lait, banane, whey, cacao, épinards.', source: 'TikTok @proteinshake', url: 'https://www.google.com/search?q=protein+smoothie+recipe', emoji: '🥤' },
+      { name: 'Soupe de poulet épicée', category: 'lunch', tag: 'high-protein', kcal: 420, p: 30, c: 22, f: 16, time: 20, recipe: 'Poulet, légumes, bouillon, épices.', source: 'Instagram @soupfit', url: 'https://www.google.com/search?q=chicken+soup+recipe', emoji: '🍲' },
+      { name: 'Tartines d’avoine', category: 'breakfast', tag: 'vegan', kcal: 260, p: 9, c: 31, f: 8, time: 8, recipe: 'Pain avoine, beurre d’amande, fruits.', source: 'Pinterest', url: 'https://www.google.com/search?q=oat+toast+recipe', emoji: '🍞' },
+      { name: 'Shakshuka healthy', category: 'breakfast', tag: 'low-carb', kcal: 360, p: 26, c: 12, f: 21, time: 18, recipe: 'Œufs, tomates, poivrons, épices.', source: 'Instagram @breakfasttrend', url: 'https://www.google.com/search?q=shakshuka+recipe', emoji: '🍅' },
+      { name: 'Bowl de produits de la mer', category: 'dinner', tag: 'high-protein', kcal: 590, p: 48, c: 26, f: 24, time: 19, recipe: 'Crevettes, saumon, riz, légumes.', source: 'TikTok @seafoodbowl', url: 'https://www.google.com/search?q=seafood+bowl+recipe', emoji: '🐚' },
+      { name: 'Burger de tofu grillé', category: 'dinner', tag: 'vegan', kcal: 450, p: 24, c: 31, f: 21, time: 18, recipe: 'Tofu, pain complet, salade, guacamole.', source: 'Instagram @veganburgers', url: 'https://www.google.com/search?q=vegan+burger+recipe', emoji: '🍔' },
+      { name: 'Poke bowl végétalien', category: 'salad', tag: 'vegan', kcal: 470, p: 20, c: 43, f: 20, time: 18, recipe: 'Riz, légumes crus, tofu, sauce soja.', source: 'Pinterest', url: 'https://www.google.com/search?q=vegan+poke+bowl+recipe', emoji: '🥬' },
+      { name: 'Salade de maïs et poulet', category: 'lunch', tag: 'high-protein', kcal: 510, p: 36, c: 29, f: 24, time: 15, recipe: 'Poulet, maïs, avocat, coriandre, citron.', source: 'TikTok @chickenfresh', url: 'https://www.google.com/search?q=chicken+corn+salad+recipe', emoji: '🌽' },
+      { name: 'Parfait au coco', category: 'dessert', tag: 'vegan', kcal: 230, p: 7, c: 21, f: 12, time: 7, recipe: 'Yaourt coco, graines, fruits frais.', source: 'Instagram @desertvegan', url: 'https://www.google.com/search?q=coconut+parfait+recipe', emoji: '🥥' },
+      { name: 'Bowl de graines croquantes', category: 'snack', tag: 'vegan', kcal: 240, p: 10, c: 18, f: 15, time: 4, recipe: 'Graines, yaourt végétal, fruits secs.', source: 'Pinterest', url: 'https://www.google.com/search?q=seed+bowl+recipe', emoji: '🌰' },
+      { name: 'Wrap de poulet épicé', category: 'lunch', tag: 'high-protein', kcal: 470, p: 40, c: 29, f: 18, time: 14, recipe: 'Wrap, poulet, légumes, fromage allégé.', source: 'Instagram @wrapfit', url: 'https://www.google.com/search?q=spicy+chicken+wrap+recipe', emoji: '🌯' },
+      { name: 'Sandwich de thon', category: 'lunch', tag: 'high-protein', kcal: 500, p: 38, c: 28, f: 19, time: 11, recipe: 'Pain complet, thon, légumes, yaourt.', source: 'Web', url: 'https://www.google.com/search?q=tuna+sandwich+recipe', emoji: '🥪' },
+      { name: 'Filet de poulet au sésame', category: 'dinner', tag: 'high-protein', kcal: 550, p: 45, c: 30, f: 22, time: 21, recipe: 'Poulet, sésame, légumes, sauce soja.', source: 'Instagram @fitkitchenasia', url: 'https://www.google.com/search?q=sesame+chicken+recipe', emoji: '🍗' },
+      { name: 'Curry de légumes', category: 'dinner', tag: 'vegan', kcal: 430, p: 19, c: 38, f: 18, time: 25, recipe: 'Légumes, lait coco, lentilles, épices.', source: 'TikTok @curriedfood', url: 'https://www.google.com/search?q=vegan+vegetable+curry+recipe', emoji: '🥘' },
+      { name: 'Salade de boeuf', category: 'lunch', tag: 'low-carb', kcal: 470, p: 36, c: 13, f: 28, time: 16, recipe: 'Bœuf grillé, roquette, parmesan, tomates.', source: 'Instagram @fitsteak', url: 'https://www.google.com/search?q=beef+salad+recipe', emoji: '🥩' },
+      { name: 'Omelette légumes', category: 'breakfast', tag: 'low-carb', kcal: 340, p: 24, c: 12, f: 21, time: 10, recipe: 'Œufs, tomate, épinards, oignon, fromage.', source: 'TikTok @omeletfit', url: 'https://www.google.com/search?q=vegetable+omelette+recipe', emoji: '🍳' },
+      { name: 'Crêpes au cacao', category: 'dessert', tag: 'high-protein', kcal: 300, p: 23, c: 25, f: 9, time: 17, recipe: 'Cacao, protéines, fromage blanc, banane.', source: 'Instagram @cacaocake', url: 'https://www.google.com/search?q=protein+cocoa+pancakes+recipe', emoji: '🍫' },
+      { name: 'Mini cheesecakes', category: 'dessert', tag: 'high-protein', kcal: 280, p: 19, c: 20, f: 12, time: 15, recipe: 'Fromage blanc, fruits, granola, miel.', source: 'Pinterest', url: 'https://www.google.com/search?q=mini+protein+cheesecake+recipe', emoji: '🧁' },
+      { name: 'Avo toast protéiné', category: 'breakfast', tag: 'high-protein', kcal: 410, p: 27, c: 28, f: 18, time: 12, recipe: 'Pain complet, avocat, œufs, graines.', source: 'TikTok @avotoastfit', url: 'https://www.google.com/search?q=protein+avocado+toast+recipe', emoji: '🥑' },
+      { name: 'Bowl de céréales maison', category: 'breakfast', tag: 'vegan', kcal: 350, p: 12, c: 43, f: 12, time: 7, recipe: 'Flocons, myrtilles, graines, lait végétal.', source: 'Instagram @veganbreakfast', url: 'https://www.google.com/search?q=homemade+granola+bowl+recipe', emoji: '🥣' },
+      { name: 'Bowls de mer', category: 'dinner', tag: 'low-carb', kcal: 460, p: 35, c: 18, f: 23, time: 18, recipe: 'Crevettes, poisson, légumes, avocat.', source: 'Instagram @seafoodbowl', url: 'https://www.google.com/search?q=seafood+bowl+salad+recipe', emoji: '🐠' },
+      { name: 'Tomates farcies au quinoa', category: 'dinner', tag: 'vegan', kcal: 410, p: 17, c: 38, f: 17, time: 23, recipe: 'Tomates, quinoa, herbes, légumes.', source: 'Pinterest', url: 'https://www.google.com/search?q=stuffed+tomatoes+quinoa+recipe', emoji: '🍅' },
+      { name: 'Nuggets de poulet', category: 'snack', tag: 'high-protein', kcal: 320, p: 27, c: 18, f: 12, time: 14, recipe: 'Poulet, flocons avoine, herbes.', source: 'TikTok @fitnesssnack', url: 'https://www.google.com/search?q=healthy+chicken+nuggets+recipe', emoji: '🍗' },
+      { name: 'Pain aux graines', category: 'breakfast', tag: 'vegan', kcal: 290, p: 10, c: 31, f: 11, time: 15, recipe: 'Pain, graines, avoine, fruits secs.', source: 'Web', url: 'https://www.google.com/search?q=seed+bread+recipe', emoji: '🌾' },
+      { name: 'Chawarma bowl', category: 'lunch', tag: 'high-protein', kcal: 560, p: 41, c: 35, f: 25, time: 18, recipe: 'Poulet shawarma, riz, salade, yaourt.', source: 'Instagram @shawarmafit', url: 'https://www.google.com/search?q=shawarma+bowl+recipe', emoji: '🥙' },
+      { name: 'Papillote de poisson', category: 'dinner', tag: 'high-protein', kcal: 500, p: 39, c: 21, f: 25, time: 22, recipe: 'Poisson, légumes, citron, beurre.', source: 'TikTok @seafoodcook', url: 'https://www.google.com/search?q=fish+papillote+recipe', emoji: '🐟' },
+      { name: 'Bowl de lentilles méditerranéennes', category: 'salad', tag: 'vegan', kcal: 430, p: 19, c: 39, f: 17, time: 17, recipe: 'Lentilles, tomates, concombre, oignon.', source: 'Instagram @lentilsplus', url: 'https://www.google.com/search?q=mediterranean+lentil+bowl+recipe', emoji: '🥗' },
+      { name: 'Gateau de flocons d’avoine', category: 'dessert', tag: 'vegan', kcal: 280, p: 8, c: 34, f: 9, time: 20, recipe: 'Oats, banane, noix, cacao.', source: 'Pinterest', url: 'https://www.google.com/search?q=oatmeal+cake+recipe', emoji: '🍌' },
+      { name: 'Rice cakes aux fruits', category: 'snack', tag: 'vegan', kcal: 220, p: 7, c: 26, f: 7, time: 5, recipe: 'Rice cakes, beurre d’amande, fruits.', source: 'Instagram @snackvibes', url: 'https://www.google.com/search?q=rice+cakes+fruit+recipe', emoji: '🍓' },
+      { name: 'Bowl de riz noir', category: 'lunch', tag: 'vegan', kcal: 470, p: 18, c: 44, f: 20, time: 18, recipe: 'Riz noir, légumes, avocat, haricots.', source: 'Web', url: 'https://www.google.com/search?q=black+rice+bowl+recipe', emoji: '🌑' },
+      { name: 'Crumble Fruits rouges', category: 'dessert', tag: 'vegan', kcal: 260, p: 6, c: 31, f: 9, time: 18, recipe: 'Fruits rouges, avoine, cannelle.', source: 'TikTok @dessertslow', url: 'https://www.google.com/search?q=fruit+crumble+recipe', emoji: '🍓' },
+      { name: 'Naan au poulet au yogourt', category: 'dinner', tag: 'high-protein', kcal: 610, p: 43, c: 38, f: 28, time: 22, recipe: 'Naan, poulet, yaourt, concombre.', source: 'Instagram @indianfit', url: 'https://www.google.com/search?q=chicken+naan+recipe', emoji: '🍛' },
+      { name: 'Pita de dinde', category: 'lunch', tag: 'high-protein', kcal: 470, p: 35, c: 32, f: 17, time: 15, recipe: 'Pita complet, dinde, salade, pesto light.', source: 'TikTok @pitahealth', url: 'https://www.google.com/search?q=turkey+pita+recipe', emoji: '🥙' },
+      { name: 'Tartare de tofu', category: 'salad', tag: 'vegan', kcal: 390, p: 21, c: 19, f: 19, time: 14, recipe: 'Tofu, oignon, tomate, citron, herbes.', source: 'Pinterest', url: 'https://www.google.com/search?q=tofu+tartare+recipe', emoji: '🥬' },
+      { name: 'Pouding au yaourt', category: 'dessert', tag: 'high-protein', kcal: 220, p: 19, c: 15, f: 5, time: 5, recipe: 'Yaourt grec, fruits, granola, noisettes.', source: 'Instagram @yogurtfit', url: 'https://www.google.com/search?q=greek+yogurt+pudding+recipe', emoji: '🍶' },
+      { name: 'Curry de pois chiches', category: 'dinner', tag: 'vegan', kcal: 480, p: 22, c: 41, f: 20, time: 20, recipe: 'Pois chiches, lait coco, épices, riz.', source: 'TikTok @plantpowercurry', url: 'https://www.google.com/search?q=chickpea+curry+recipe', emoji: '🥥' }
+    ];
+
+    const state = {
+      search: '',
+      category: 'all',
+      filter: 'all'
+    };
+
+    function buildFilters() {
+      const filterBar = document.getElementById('filters');
+      filterBar.innerHTML = '';
+      const allFilters = ['all', 'high-protein', 'low-carb', 'vegan', 'breakfast', 'lunch', 'dinner', 'snack', 'salad', 'dessert'];
+
+      allFilters.forEach(filterKey => {
+        const chip = document.createElement('button');
+        chip.type = 'button';
+        chip.className = 'chip' + (state.filter === filterKey ? ' active' : '');
+        chip.textContent = filterKey === 'all' ? 'Tout' : (categories.find(c => c.key === filterKey)?.label || filterKey);
+        chip.addEventListener('click', () => {
+          state.filter = filterKey;
+          buildFilters();
+          renderCards();
+        });
+        filterBar.appendChild(chip);
+      });
+    }
+
+    function matchesRecipe(item) {
+      const search = state.search.trim().toLowerCase();
+      const matchesText = !search || item.name.toLowerCase().includes(search) || item.recipe.toLowerCase().includes(search) || item.source.toLowerCase().includes(search);
+      const matchesCategory = state.category === 'all' || item.category === state.category;
+      const matchesFilter = state.filter === 'all' || item.category === state.filter || item.tag === state.filter;
+      return matchesText && matchesCategory && matchesFilter;
+    }
+
+    function renderCards() {
+      const grid = document.getElementById('recipeGrid');
+      const emptyState = document.getElementById('emptyState');
+      const filtered = recipeData.filter(matchesRecipe);
+      document.getElementById('resultsLabel').textContent = `${filtered.length} plats disponibles`;
+      document.getElementById('metric-count').textContent = filtered.length;
+
+      if (!filtered.length) {
+        grid.innerHTML = '';
+        emptyState.style.display = 'block';
+        return;
+      }
+
+      emptyState.style.display = 'none';
+      grid.innerHTML = filtered.map((item, index) => {
+        const image = getRecipeImage(item.category, index);
+        return `
+        <article class="card">
+          <div class="thumb" style="background-image: linear-gradient(180deg, rgba(0,0,0,0.06), rgba(0,0,0,0.18)), url('${image}');">
+            <span class="badge">${item.category}</span>
+            <span>${item.emoji}</span>
+          </div>
+          <div class="card-body">
+            <div class="title-row">
+              <h3>${item.name}</h3>
+              <span class="kcal">${item.kcal} kcal</span>
+            </div>
+            <div class="meta">
+              <span>${item.time} min</span>
+              <span>${item.source}</span>
+            </div>
+            <p class="desc">${item.recipe}</p>
+            <div class="macros">
+              <div class="macro"><small>Prot.</small><strong>${item.p}g</strong></div>
+              <div class="macro"><small>Carb.</small><strong>${item.c}g</strong></div>
+              <div class="macro"><small>Lip.</small><strong>${item.f}g</strong></div>
+            </div>
+            <div class="footer-actions">
+              <a class="secondary" href="${item.url}" target="_blank" rel="noreferrer">Voir source</a>
+              <button class="primary" type="button" onclick="addToJournal(${JSON.stringify(item).replace(/\"/g,'&quot;')})">Ajouter</button>
+            </div>
+          </div>
+        </article>
+      `;
+      }).join('');
+    }
+
+    function addToJournal(item) {
+      try {
+        const existing = JSON.parse(localStorage.getItem('nt_log') || '{"d":"' + new Date().toISOString().slice(0,10) + '","items":[]}');
+        const entry = {
+          n: item.name,
+          q: 250,
+          k: item.kcal,
+          p: item.p,
+          c: item.c,
+          f: item.f
+        };
+        if (!existing.items) existing.items = [];
+        existing.items.push(entry);
+        localStorage.setItem('nt_log', JSON.stringify(existing));
+        alert(`${item.name} a été ajouté au journal nutrition.`);
+      } catch (error) {
+        alert('Le navigateur a refusé d’ajouter ce plat au journal.');
+      }
+    }
+
+    document.getElementById('searchInput').addEventListener('input', (e) => {
+      state.search = e.target.value;
+      renderCards();
+    });
+
+    document.getElementById('selectCategory').addEventListener('change', (e) => {
+      state.category = e.target.value;
+      renderCards();
+    });
+
+    document.getElementById('resetButton').addEventListener('click', () => {
+      state.search = '';
+      state.category = 'all';
+      state.filter = 'all';
+      document.getElementById('searchInput').value = '';
+      document.getElementById('selectCategory').value = 'all';
+      buildFilters();
+      renderCards();
+    });
+
+    buildFilters();
+    renderCards();
+  </script>
+</body>
+</html>
